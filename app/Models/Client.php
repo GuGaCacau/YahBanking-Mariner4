@@ -13,10 +13,12 @@ class Client extends Model
 
     // $fillabe para cadastrar informações em massa
     protected $fillabe = [
-        'first-name',
-        'last-name',
+        'first_name',
+        'last_name',
         'email',
         'avatar',
+        'invested_amount',
+        'uninvested_amount'
     ];
 
     // Relação Many to Many com Investimentos

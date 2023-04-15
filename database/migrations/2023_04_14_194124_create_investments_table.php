@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('investments', function (Blueprint $table) {
             $table->id();
-            $table->string('commercial-name');
-            $table->string('commercial-sail');
+            $table->string('commercial_name');
+            $table->string('commercial_sail');
             $table->text('description');
             $table->timestamps();
         });

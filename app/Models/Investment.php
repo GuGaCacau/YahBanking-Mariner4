@@ -13,8 +13,8 @@ class Investment extends Model
 
     // $fillabe para cadastrar informações em massa
     protected $fillabe = [
-        'commercial-name',
-        'commercial-sail',
+        'commercial_name',
+        'commercial_sail',
         'description',
     ];
 
