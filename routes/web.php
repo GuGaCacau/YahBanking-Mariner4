@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
+//Incluindo os Controladores da Aplicação
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\InvestmentController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +18,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Rotas Principais
+Route::get('/', [MainController::class, 'index']);
+Route::get('/investments', [MainController::class, 'investments']);
+
+//Rotas de Clientes
+Route::get('/client_add', [ClientController::class, 'add']);
+Route::post('/client_post', [ClientController::class, 'post']);
+
+//Rotas de Investimentos
+Route::get('/investment_add', [InvestmentController::class, 'add']);
+Route::post('/investment_post', [InvestmentController::class, 'post']);
