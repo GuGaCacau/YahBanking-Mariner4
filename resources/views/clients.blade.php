@@ -71,7 +71,7 @@ $table_head = [
                     {{number_format($client->uninvested_amount, 2, ',','.');}}
                     </td>
                     <td class="text-center" scope="col">
-                        <a class="btn btn-default border-secondary"><i class="fa fa-pen-to-square"></i></a>
+                        <a class="btn btn-default border-secondary" href="/client_edit/{{$client->id}}"><i class="fa fa-pen-to-square"></i></a>
                     </td>  
                     <td class="text-center" scope="col">
                         <a class="btn btn-default invest_btn border-secondary"><i class="fa fa-money-bill-trend-up"></i></a>

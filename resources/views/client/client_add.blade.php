@@ -2,7 +2,7 @@
 @extends('layouts.master')
 
 <!-- Título da Página -->
-@section('title', 'Cadastro - Clientes')
+@section('title', 'Cadastro - Cliente')
     
 <!-- Corpo da Página -->
 @section('content')
@@ -19,7 +19,8 @@
         @endif
     
     <!-- Formulário para Cadastro de novo Cliente -->
-    <div class="col-4 container mt-5">
+    <div class="col-5 container mt-4 px-5 border border-4 border-dark rounded-3">
+        <h4 class="text-light mt-4 mb-4 text-center">Cadastro de Cliente</h4>
         <form style="color:white" action="{{url('/client_post')}}" method="post" enctype="multipart/form-data">
         @csrf
             <!-- Input do Nome -->

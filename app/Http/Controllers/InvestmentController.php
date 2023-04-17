@@ -19,6 +19,15 @@ class InvestmentController extends Controller
         return view('investment.investment_add');
     }
 
+    //Função para ir à tela de atualizar um investimento
+    public function edit($id)
+    {
+        //Investimento específico pelo ID passado
+        $investment = Investment::find($id);
+
+        return view('investment.investment_edit', ['investment' => $investment]);
+    }
+
     //Função para adicionar investimentos no banco de dados
     public function post(InvestmentRequest $request)
     {        
@@ -30,5 +39,18 @@ class InvestmentController extends Controller
         $investment->save();
 
         return redirect('/investments')->with('success', 'Cadastro Realizado com Sucesso!');
+    }
+
+    //Função para atualizar investimentos no banco de dados
+    public function patch(InvestmentRequest $request, $id)
+    {        
+        //PATCH do investimento no banco de dados
+        $investment = Investment::find($id);
+        $investment->commercial_name = $request->commercial_name;
+        $investment->commercial_sail = $request->commercial_sail;
+        $investment->description = $request->description;
+        $investment->save();
+
+        return redirect('/investments')->with('success', 'Cadastro Atualizado com Sucesso!');
     }
 }

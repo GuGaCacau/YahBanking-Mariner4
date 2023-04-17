@@ -53,7 +53,7 @@ $table_head = [
                     <td class="text-center" scope="col">{{$investment->commercial_name}}</td>
                     <td class="text-center" scope="col">{{$investment->commercial_sail}}</td>
                     <td class="text-center" scope="col">
-                        <a class="btn btn-default border-secondary"><i class="fa fa-pen-to-square"></i></a>
+                        <a class="btn btn-default border-secondary" href="/investment_edit/{{$investment->id}}"><i class="fa fa-pen-to-square"></i></a>
                     </td>  
                     <td class="text-center" scope="col">
                         <a class="btn btn-default border-secondary"><i class="fa fa-search"></i></a>
