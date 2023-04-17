@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('commercial_sail');
             $table->text('description');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->float('investment_amount', 8, 2);
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
