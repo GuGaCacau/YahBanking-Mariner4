@@ -28,7 +28,7 @@ Route::get('/client_edit/{id}', [ClientController::class, 'edit']);
 Route::post('/client_post', [ClientController::class, 'post']);
 Route::post('/client_patch/{id}', [ClientController::class, 'patch']);
 Route::post('/client_patch_avatar/{id}', [ClientController::class, 'patch_with_avatar']);
-Route::delete('/client_delete', [ClientController::class, 'delete']);
+Route::get('/client_delete/{id}', [ClientController::class, 'delete']);
 
 
 //Rotas de Investimentos
@@ -36,3 +36,4 @@ Route::get('/investment_add', [InvestmentController::class, 'add']);
 Route::get('/investment_edit/{id}', [InvestmentController::class, 'edit']);
 Route::post('/investment_post', [InvestmentController::class, 'post']);
 Route::post('/investment_patch/{id}', [InvestmentController::class, 'patch']);
+Route::get('/investment_delete/{id}', [InvestmentController::class, 'delete']);

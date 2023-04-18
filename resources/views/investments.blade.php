@@ -59,8 +59,27 @@ $table_head = [
                         <a class="btn btn-default border-secondary"><i class="fa fa-search"></i></a>
                     </td> 
                     <td class="text-center" scope="col">
-                        <a class="btn btn-default delete_btn border-secondary"><i class="fa fa-trash-can"></i></a>
+                        <a class="btn btn-default delete_btn border-secondary" data-toggle="modal" data-target=".delete_modal_{{$investment->id}}"><i class="fa fa-trash-can"></i></a>
                     </td> 
+
+                    <!-- Modal de Delete-->
+                    <div class="modal fade delete_modal_{{$investment->id}}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content border border-2">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="ModalLabel">Realmente deseja deletar esse investimento?</h5>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                            {{$investment->commercial_name.' '}}&middot;{{' '.$investment->commercial_sail}}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn modal-no-btn" data-dismiss="modal">Não</button>
+                                <a type="button" class="btn modal-yes-btn" href="/investment_delete/{{$investment->id}}">Sim</a>
+                            </div>
+                        </div>
+                        </div>
+                    </div> 
                 </tr>
                 @endforeach
             </tbody>

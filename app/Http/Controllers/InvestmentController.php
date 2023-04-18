@@ -30,7 +30,7 @@ class InvestmentController extends Controller
 
     //Função para adicionar investimentos no banco de dados
     public function post(InvestmentRequest $request)
-    {        
+    {
         //POST do novo investimento no banco de dados
         $investment = new Investment;
         $investment->commercial_name = $request->commercial_name;
@@ -43,7 +43,7 @@ class InvestmentController extends Controller
 
     //Função para atualizar investimentos no banco de dados
     public function patch(InvestmentRequest $request, $id)
-    {        
+    {
         //PATCH do investimento no banco de dados
         $investment = Investment::find($id);
         $investment->commercial_name = $request->commercial_name;
@@ -52,5 +52,16 @@ class InvestmentController extends Controller
         $investment->save();
 
         return redirect('/investments')->with('success', 'Cadastro Atualizado com Sucesso!');
+    }
+
+    //Função para deletar um investimento
+    public function delete($id)
+    {
+        //Investimento específico pelo ID passado
+        $investment = Investment::find($id);
+
+        $investment->delete();
+
+        return redirect('/investments')->with('success', 'Investimento excluído com Sucesso!');
     }
 }

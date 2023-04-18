@@ -50,3 +50,26 @@ header,
 .invest_btn:hover {
     color: greenyellow;
 }
+
+/* Modals */
+.modal-header {
+    background-color: #15181a;
+}
+
+.modal-title {
+    color: white;
+}
+
+.modal-body, .modal-footer {
+    background-color: #262b2e;
+    color: white;
+}
+
+.modal-no-btn {
+    background-color: #444;
+    color: white;
+}
+
+.modal-yes-btn {
+    background-color: #71CBFF;
+}

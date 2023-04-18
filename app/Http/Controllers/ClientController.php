@@ -18,7 +18,7 @@ use \App\Models\Investment;
 $valor_total = 5000;
 
 class ClientController extends Controller
-{   
+{
     //Função para ir à tela de adicionar um cliente
     public function add()
     {
@@ -36,7 +36,7 @@ class ClientController extends Controller
 
     //Função para adicionar clientes no banco de dados
     public function post(ClientRequest $request)
-    {        
+    {
         //Validando a existência da pasta "images" e pegando seu path
         $path = public_path('images/');
         !is_dir($path) &&
@@ -44,10 +44,10 @@ class ClientController extends Controller
 
         //Criando nome para a imagem do avatar de acordo com o horário
         $avatar_name = time() . '.' . $request->avatar->extension();
-        
+
         //Salvando a imagem do avatar na pasta "public/images" do projeto
         $request->avatar->move($path, $avatar_name);
-        $avatar_path = "images/".$avatar_name;
+        $avatar_path = "images/" . $avatar_name;
 
         //POST do novo cliente no banco de dados
         $client = new Client;
@@ -64,7 +64,7 @@ class ClientController extends Controller
 
     //Função para atualizar clientes (sem novo avatar) no banco de dados
     public function patch(ClientPatchRequest $request, $id)
-    {        
+    {
         //PATCH do cliente no banco de dados
         $client = Client::find($id);
         $client->first_name = $request->first_name;
@@ -77,7 +77,7 @@ class ClientController extends Controller
 
     //Função para atualizar clientes (com novo avatar) no banco de dados
     public function patch_with_avatar(ClientRequest $request, $id)
-    {        
+    {
         //Validando a existência da pasta "images" e pegando seu path
         $path = public_path('images/');
         !is_dir($path) &&
@@ -85,10 +85,10 @@ class ClientController extends Controller
 
         //Criando nome para a imagem do avatar de acordo com o horário
         $avatar_name = time() . '.' . $request->avatar->extension();
-        
+
         //Salvando a imagem do avatar na pasta "public/images" do projeto
         $request->avatar->move($path, $avatar_name);
-        $avatar_path = "images/".$avatar_name;
+        $avatar_path = "images/" . $avatar_name;
 
         //PATCH do cliente no banco de dados
         $client = Client::find($id);
@@ -109,7 +109,6 @@ class ClientController extends Controller
 
         $client->delete();
 
-        return view('client.client_edit', ['client' => $client]);
+        return redirect('/')->with('success', 'Cliente excluído com Sucesso!');
     }
-
 }
