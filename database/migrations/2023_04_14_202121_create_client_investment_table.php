@@ -14,7 +14,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('client_investment', function (Blueprint $table) {
-            
+            $table->id();
+
             //Chaves Estrangeiras das duas tabelas
             $table->foreignId('client_id')->constrained();
             $table->foreignId('investment_id')->constrained();
