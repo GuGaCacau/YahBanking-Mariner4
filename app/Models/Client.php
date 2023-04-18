@@ -6,10 +6,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     // $fillabe para cadastrar informações em massa
     protected $fillabe = [
@@ -22,7 +24,8 @@ class Client extends Model
     ];
 
     // Relação Many to Many com Investimentos
-    public function investments(){
+    public function investments()
+    {
         return $this->belongsToMany('App\Models\Investment');
     }
 }
