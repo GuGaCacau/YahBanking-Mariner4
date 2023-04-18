@@ -73,3 +73,9 @@ header,
 .modal-yes-btn {
     background-color: #71CBFF;
 }
+
+/* Profile Containers */
+.avatar_card, .body_card {
+    background-color: #1a2f3b;
+    color: white;
+}

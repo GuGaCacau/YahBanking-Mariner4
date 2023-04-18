@@ -12,7 +12,9 @@ use App\Http\Requests\ClientPatchRequest;
 
 //Incluindo os Models para utilizar o Eloquent no controlador
 use \App\Models\Client;
+use App\Models\client_investment;
 use \App\Models\Investment;
+use Illuminate\Support\Facades\DB;
 
 //Valor total padrão para cadastros novos
 $valor_total = 5000;
@@ -110,5 +112,81 @@ class ClientController extends Controller
         $client->delete();
 
         return redirect('/')->with('success', 'Cliente excluído com Sucesso!');
+    }
+
+    //Função para ir à tela de investimentos de um cliente
+    public function investment($id)
+    {
+        //Cliente específico pelo ID passado
+        $client = Client::find($id);
+
+        //Investimentos do Cliente
+        $investments = DB::table('client_investment')
+            ->where('client_id', '=', $id)
+            ->join('investments', 'client_investment.investment_id', '=', 'investments.id')
+            ->select('client_investment.id', 'investments.commercial_name', 'investments.commercial_sail', 'client_investment.investment_amount')
+            ->get();
+
+        //Not invested
+
+        return view('client.client_investment', ['client' => $client, 'investments' => $investments]);
+    }
+
+    //Função para adicionar valor investido do cliente em investimento no banco de dados
+    public function invest(Request $request, $investment_id, $client_id)
+    {
+        //Mudando vírgula para ponto a fim de guardar no banco de dados
+        $new_valor = str_replace(",", ".", $request->new_valor);
+        $new_valor = (float)$new_valor;
+
+        //PATCH do cliente no banco de dados
+        $client = Client::find($client_id);
+        $client_investment = client_investment::find($investment_id);
+
+        //Se o novo valor for maior que o disponível do cliente, retorna
+        if ($new_valor  > $client->uninvested_amount) {
+            return redirect('/client_investment/' . $client_id)->with('fail', 'Não é possível investir mais que o disponível!');
+        }
+
+        //Se o novo valor for menor que o disponível ou igual, computa o investimento
+        $client->uninvested_amount = $client->uninvested_amount - $new_valor;
+        $client->invested_amount = $client->invested_amount + $new_valor;
+        $client_investment->investment_amount = $client_investment->investment_amount + $new_valor;
+        $client->save();
+        $client_investment->save();
+        return redirect('/client_investment/' . $client_id)->with('success', 'Investimento Atualizado com Sucesso!');
+    }
+
+    //Função para resgatar valor investido do cliente em investimento no banco de dados
+    public function retrieve(Request $request, $investment_id, $client_id)
+    {
+        //Mudando vírgula para ponto a fim de guardar no banco de dados
+        $new_valor = str_replace(",", ".", $request->retrieve_valor);
+        $new_valor = (float)$new_valor;
+
+        //PATCH do cliente no banco de dados
+        $client = Client::find($client_id);
+        $client_investment = client_investment::find($investment_id);
+
+        //Se o valor resgatado for maior que o investido, retorna
+        if ($new_valor > $client_investment->investment_amount) {
+            return redirect('/client_investment/' . $client_id)->with('fail', 'Não é possível resgatar um valor maior que o investido!');
+        }
+        //Se o valor resgatado for igual ao investido, deleta o investimento
+        elseif ($new_valor == $client_investment->investment_amount) {
+            $client->uninvested_amount = $client->uninvested_amount + $new_valor;
+            $client->invested_amount = $client->invested_amount - $new_valor;
+            $client->save();
+            $client_investment->delete();
+            return redirect('/client_investment/' . $client_id)->with('success', 'Investimento totalmente resgatado.');
+        }
+
+        //Se o valor resgatado for menor que o investido ou igual, computa o investimento
+        $client->uninvested_amount = $client->uninvested_amount + $new_valor;
+        $client->invested_amount = $client->invested_amount - $new_valor;
+        $client_investment->investment_amount = $client_investment->investment_amount - $new_valor;
+        $client->save();
+        $client_investment->save();
+        return redirect('/client_investment/' . $client_id)->with('success', 'Valor Resgatado com Sucesso!');
     }
 }

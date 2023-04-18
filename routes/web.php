@@ -29,6 +29,10 @@ Route::post('/client_post', [ClientController::class, 'post']);
 Route::post('/client_patch/{id}', [ClientController::class, 'patch']);
 Route::post('/client_patch_avatar/{id}', [ClientController::class, 'patch_with_avatar']);
 Route::get('/client_delete/{id}', [ClientController::class, 'delete']);
+Route::get('/client_investment/{id}', [ClientController::class, 'investment']);
+Route::post('/client_invest/{investment_id}/{client_id}', [ClientController::class, 'invest']);
+Route::post('/client_retrieve/{investment_id}/{client_id}', [ClientController::class, 'retrieve']);
+
 
 
 //Rotas de Investimentos
