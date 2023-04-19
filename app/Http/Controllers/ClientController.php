@@ -16,9 +16,6 @@ use App\Models\client_investment;
 use \App\Models\Investment;
 use Illuminate\Support\Facades\DB;
 
-//Valor total padrão para cadastros novos
-$valor_total = 5000;
-
 class ClientController extends Controller
 {
     //Função para ir à tela de adicionar um cliente
@@ -39,6 +36,10 @@ class ClientController extends Controller
     //Função para adicionar clientes no banco de dados
     public function post(ClientRequest $request)
     {
+        //Incluindo constantes da aplicação (valor_total)
+        include(app_path('includes/constants.php'));
+        $constants = getConstants();
+
         //Validando a existência da pasta "images" e pegando seu path
         $path = public_path('images/');
         !is_dir($path) &&
@@ -58,7 +59,7 @@ class ClientController extends Controller
         $client->email = $request->email;
         $client->avatar = $avatar_path;
         $client->invested_amount = 0;
-        $client->uninvested_amount = 5000;
+        $client->uninvested_amount = $constants["valor_total"];
         $client->save();
 
         return redirect('/')->with('success', 'Cadastro Realizado com Sucesso!');
