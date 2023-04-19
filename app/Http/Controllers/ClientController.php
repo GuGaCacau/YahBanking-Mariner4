@@ -120,20 +120,42 @@ class ClientController extends Controller
         //Cliente específico pelo ID passado
         $client = Client::find($id);
 
+        $investment_list = Investment::all();
+
         //Investimentos do Cliente
         $investments = DB::table('client_investment')
             ->where('client_id', '=', $id)
             ->join('investments', 'client_investment.investment_id', '=', 'investments.id')
-            ->select('client_investment.id', 'investments.commercial_name', 'investments.commercial_sail', 'client_investment.investment_amount')
+            ->select('investments.id', 'client_investment.id AS invest_id', 'investments.commercial_name', 'investments.commercial_sail', 'client_investment.investment_amount')
             ->get();
 
-        //Not invested
+        //Contador para a lógica
+        $count = 0;
 
-        return view('client.client_investment', ['client' => $client, 'investments' => $investments]);
+        //Investimentos não investidos pelo cliente
+        foreach ($investment_list as $investment) {
+            foreach ($investments as $invest) {
+                if ($invest->id == $investment->id) {
+                    $count++;
+                    break;
+                }
+            }
+            if ($count == 0) {
+                $not_invested[] = $investment;
+            }
+            $count = 0;
+        }
+
+        //Caso não haja opção disponível de novo investimento
+        if (!isset($not_invested)) {
+            $not_invested = [];
+        }
+
+        return view('client.client_investment', ['client' => $client, 'investments' => $investments, 'not_invested' => $not_invested]);
     }
 
     //Função para adicionar valor investido do cliente em investimento no banco de dados
-    public function invest(Request $request, $investment_id, $client_id)
+    public function invest(Request $request, $invested_id, $client_id)
     {
         //Mudando vírgula para ponto a fim de guardar no banco de dados
         $new_valor = str_replace(",", ".", $request->new_valor);
@@ -141,7 +163,7 @@ class ClientController extends Controller
 
         //PATCH do cliente no banco de dados
         $client = Client::find($client_id);
-        $client_investment = client_investment::find($investment_id);
+        $client_investment = client_investment::find($invested_id);
 
         //Se o novo valor for maior que o disponível do cliente, retorna
         if ($new_valor  > $client->uninvested_amount) {
@@ -158,7 +180,7 @@ class ClientController extends Controller
     }
 
     //Função para resgatar valor investido do cliente em investimento no banco de dados
-    public function retrieve(Request $request, $investment_id, $client_id)
+    public function retrieve(Request $request, $invested_id, $client_id)
     {
         //Mudando vírgula para ponto a fim de guardar no banco de dados
         $new_valor = str_replace(",", ".", $request->retrieve_valor);
@@ -166,7 +188,7 @@ class ClientController extends Controller
 
         //PATCH do cliente no banco de dados
         $client = Client::find($client_id);
-        $client_investment = client_investment::find($investment_id);
+        $client_investment = client_investment::find($invested_id);
 
         //Se o valor resgatado for maior que o investido, retorna
         if ($new_valor > $client_investment->investment_amount) {
@@ -188,5 +210,32 @@ class ClientController extends Controller
         $client->save();
         $client_investment->save();
         return redirect('/client_investment/' . $client_id)->with('success', 'Valor Resgatado com Sucesso!');
+    }
+
+    //Função para adicionar novo investimento de um cliente
+    public function new_investment(Request $request, $investment_id, $client_id)
+    {
+        //Mudando vírgula para ponto a fim de guardar no banco de dados
+        $invest_valor = str_replace(",", ".", $request->invest_valor);
+        $invest_valor = (float)$invest_valor;
+
+        $client = Client::find($client_id);
+
+        //Se o novo valor for maior que o disponível do cliente, retorna
+        if ($invest_valor  > $client->uninvested_amount) {
+            return redirect('/client_investment/' . $client_id)->with('fail', 'Não é possível investir mais que o disponível!');
+        }
+
+        //Se o novo valor for menor que o disponível ou igual, computa o novo investimento
+        $client->uninvested_amount = $client->uninvested_amount - $invest_valor;
+        $client->invested_amount = $client->invested_amount + $invest_valor;
+        $client->save();
+        $client_investment = new client_investment;
+        $client_investment->client_id = $client_id;
+        $client_investment->investment_id = $investment_id;
+        $client_investment->investment_amount = $invest_valor;
+        $client_investment->save();
+
+        return redirect('/client_investment/' . $client_id)->with('success', 'Novo Investimento Realizado com Sucesso!');
     }
 }

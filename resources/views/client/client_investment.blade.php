@@ -15,6 +15,15 @@ $table_head = [
 ];
 @endphp
 
+<!-- Array com todos os textos da cabeça da segunda table-->
+@php
+$second_table_head = [
+    "Nome Comercial",
+    "Sigla Comercial",
+    "Começar a Investir",
+];
+@endphp
+
 <!-- Corpo da Página -->
 @section('content')
 
@@ -105,15 +114,10 @@ $table_head = [
 </div>
 
 <div class="text-white ms-2">
-    <h4><i class="fa fa-money-bill-trend-up" style="color: green"></i> Investimentos</h4>
+    <h4><i class="fa fa-money-bill-trend-up" style="color: green"></i> Investimentos Atuais</h4>
 </div>
 
-<!-- Botão de adicionar investimento do cliente -->
-<div style="background-color:#262b2e;">
-    <a class="btn btn-default add_btn" href='{{url("/client_new_invest/$client->id")}}'><i class="fa fa-add"></i> Novo Investimento</a>
-</div>
-
-<!-- Condição para caso não haja cadastro -->
+<!-- Condição para caso não haja investimento -->
 @if(isset($investments[0]->commercial_name)){
     <!-- Table da lista de investientos do cliente -->
     <div class="table-responsive">
@@ -128,7 +132,7 @@ $table_head = [
             </thead>
             <tbody>
                 <!-- Loop pegando as informações dos investimentos do cliente e colocando na table -->
-                @foreach ($investments as $investment)
+                @foreach($investments as $investment)
                 <tr>
                     <td class="text-center" scope="col">{{$investment->commercial_name}}</td>
                     <td class="text-center" scope="col">{{$investment->commercial_sail}}</td> 
@@ -136,14 +140,14 @@ $table_head = [
                     {{number_format(($investment->investment_amount), 2, ',','.');}}
                     </td>
                     <td class="text-center" scope="col">
-                        <a class="btn btn-default invest_btn border-secondary" data-toggle="modal" data-target=".invest_modal_{{$investment->id}}"><i class="fa fa-money-bill-trend-up"></i></a>
+                        <a class="btn btn-default invest_btn border-secondary" data-toggle="modal" data-target=".invest_modal_{{$investment->invest_id}}"><i class="fa fa-money-bill-trend-up"></i></a>
                     </td>
                     <td class="text-center" scope="col">
-                        <a class="btn btn-default border-secondary" data-toggle="modal" data-target=".retrieve_modal_{{$investment->id}}"><i class="fa fa-delete-left"></i></a>
+                        <a class="btn btn-default border-secondary" data-toggle="modal" data-target=".retrieve_modal_{{$investment->invest_id}}"><i class="fa fa-delete-left"></i></a>
                     </td>
 
                     <!-- Modal de Investir-->
-                    <div class="modal fade invest_modal_{{$investment->id}}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+                    <div class="modal fade invest_modal_{{$investment->invest_id}}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                         <div class="modal-content border border-2">
                             <div class="modal-header">
@@ -158,7 +162,7 @@ $table_head = [
                                 <br>
                                 Valor disponível: R$
                                 {{number_format(($client->uninvested_amount), 2, ',','.');}}
-                                <form action="{{url("/client_invest/$investment->id/$client->id")}}" method="post">
+                                <form action="{{url("/client_invest/$investment->invest_id/$client->id")}}" method="post">
                                 @csrf
                                     <div class="form-outline mt-3">
                                       <input type="text" class="form-control" name="new_valor" id="recipient-name">
@@ -174,7 +178,7 @@ $table_head = [
                     </div>
 
                     <!-- Modal de Resgatar-->
-                    <div class="modal fade retrieve_modal_{{$investment->id}}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+                    <div class="modal fade retrieve_modal_{{$investment->invest_id}}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                         <div class="modal-content border border-2">
                             <div class="modal-header">
@@ -187,7 +191,7 @@ $table_head = [
                                 Valor investido: R$
                                 {{number_format(($investment->investment_amount), 2, ',','.');}}
                                 <br>
-                                <form action="{{url("/client_retrieve/$investment->id/$client->id")}}" method="post">
+                                <form action='{{url("/client_retrieve/$investment->invest_id/$client->id")}}' method="post">
                                 @csrf
                                     <div class="form-outline mt-3">
                                       <input type="text" class="form-control" name="retrieve_valor" id="recipient-name">
@@ -214,5 +218,71 @@ $table_head = [
 }
 @endif
 
+<div class="text-white ms-2">
+  <h4> Investimentos Disponíveis</h4>
+</div>
+
+<!-- Condição para caso haja investimento em todas as opções -->
+@if(isset($not_invested[0]->commercial_name)){
+  <!-- Table da lista de investientos do cliente -->
+  <div class="table-responsive">
+      <table class="table table-dark table-striped table-hover table-bordered">
+          <thead>
+          <tr>
+              <!-- Loop pegando os textos da cabeça da table -->
+              @foreach ($second_table_head as $item2) 
+              <th class="text-center" scope="col">{{$item2}}</th>
+              @endforeach
+          </tr>
+          </thead>
+          <tbody>
+              <!-- Loop pegando as informações dos demais investimentos colocando na table -->
+              @foreach ($not_invested as $investment2)
+              <tr>
+                  <td class="text-center" scope="col">{{$investment2->commercial_name}}</td>
+                  <td class="text-center" scope="col">{{$investment2->commercial_sail}}</td> 
+                  <td class="text-center" scope="col">
+                      <a class="btn btn-default invest_btn border-secondary" data-toggle="modal" data-target=".invest_modal_{{$investment2->id}}"><i class="fa fa-money-bill-trend-up"></i></a>
+                  </td>
+
+                  <!-- Modal de Investir-->
+                  <div class="modal fade invest_modal_{{$investment2->id}}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                      <div class="modal-content border border-2">
+                          <div class="modal-header">
+                          <h5 class="modal-title" id="ModalLabel">Quanto deseja investir?</h5>
+                          </button>
+                          </div>
+                          <div class="modal-body">
+                              {{$investment2->commercial_name.' '}}&middot;{{' '.$investment2->commercial_sail}}
+                              <br>
+                              Valor disponível: R$
+                              {{number_format(($client->uninvested_amount), 2, ',','.');}}
+                              <form action='{{url("/client_new_invest/$investment2->id/$client->id")}}' method="post">
+                              @csrf
+                                  <div class="form-outline mt-3">
+                                    <input type="text" class="form-control" name="invest_valor" id="recipient-name">
+                                  </div>
+                                  <div class="row justify-content-end">
+                                      <button type="button" class="btn modal-no-btn mt-3 col-2" data-dismiss="modal">Voltar</button>
+                                      <button type="submit" class="btn modal-yes-btn mt-3 mx-3 col-2">Investir</button>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                      </div>
+                  </div>
+              </tr>
+              @endforeach
+          </tbody>
+      </table>
+  </div>
+}
+@else{
+  <div class="text-white ms-2">
+      <h4>Esse Cliente já investe em todas as opções</h4>
+  </div>
+}
+@endif
 
 @endsection
