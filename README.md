@@ -1,16 +1,3 @@
-# YahBanking-Mariner4
-Desafio Técnico YahP - Processo Seletivo 03-2023
-
-Criação:
-curl -s https://laravel.build/example-app | bash
-
-Sail: 
-docker run --rm
--u "$(id -u):$(id -g)"
--v $(pwd):/var/www/html
--w /var/www/html
-laravelsail/php82-composer:latest
-composer install --ignore-platform-reqs
 <h1 align="center">
   YahBanking-Mariner4
   <br>
@@ -20,7 +7,7 @@ composer install --ignore-platform-reqs
 
 <p align="center">
   <a href="#descrição">Descrição</a> •
-  <a href="#como-utilizar">Como Utilizar</a> •
+  <a href="#como-utilizar">Como Utilizar</a>
 </p>
 
 ## Descrição
