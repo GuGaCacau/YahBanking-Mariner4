@@ -58,7 +58,7 @@ $table_head = [
                             <a class="btn btn-default border-secondary" href="/investment_edit/{{$investment->id}}"><i class="fa fa-pen-to-square"></i></a>
                         </td>  
                         <td class="text-center" scope="col">
-                            <a class="btn btn-default border-secondary"><i class="fa fa-search"></i></a>
+                            <a class="btn btn-default border-secondary" href="/investment_info/{{$investment->id}}"><i class="fa fa-search"></i></a>
                         </td> 
                         <td class="text-center" scope="col">
                             <a class="btn btn-default delete_btn border-secondary" data-toggle="modal" data-target=".delete_modal_{{$investment->id}}"><i class="fa fa-trash-can"></i></a>
