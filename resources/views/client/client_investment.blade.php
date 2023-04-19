@@ -218,8 +218,8 @@ $second_table_head = [
 }
 @endif
 
-<div class="text-white ms-2">
-  <h4> Investimentos Disponíveis</h4>
+<div class="text-white ms-2 mt-3">
+  <h4><i class="fa fa-caret-up" style="color: greenyellow"></i> Investimentos Disponíveis</h4>
 </div>
 
 <!-- Condição para caso haja investimento em todas as opções -->
@@ -280,7 +280,7 @@ $second_table_head = [
 }
 @else{
   <div class="text-white ms-2">
-      <h4>Esse Cliente já investe em todas as opções</h4>
+      <h4>Não há Investimentos disponíveis</h4>
   </div>
 }
 @endif
