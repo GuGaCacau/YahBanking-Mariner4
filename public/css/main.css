@@ -1,0 +1,81 @@
+/* General */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #262b2e;
+}
+
+p,
+li {
+    color: #444;
+    font-size: 16px;
+}
+
+/* Navbar */
+header,
+.navbar {
+    background-color: #15181a;
+}
+
+#nav-container {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.logo_title,
+.logo_link {
+    font-size: 20px;
+}
+
+.logo_link {
+    color: #71CBFF;
+}
+
+/* Table Buttons */
+.add_btn {
+    color: white;
+}
+
+.add_btn:hover {
+    color: #71CBFF;
+}
+
+.icon_btn {
+    border: 3px;
+}
+
+.delete_btn {
+    color: red;
+}
+
+.invest_btn:hover {
+    color: greenyellow;
+}
+
+/* Modals */
+.modal-header {
+    background-color: #15181a;
+}
+
+.modal-title {
+    color: white;
+}
+
+.modal-body, .modal-footer {
+    background-color: #262b2e;
+    color: white;
+}
+
+.modal-no-btn {
+    background-color: #444;
+    color: white;
+}
+
+.modal-yes-btn {
+    background-color: #71CBFF;
+}
+
+/* Profile Containers */
+.avatar_card, .body_card {
+    background-color: #1a2f3b;
+    color: white;
+}
