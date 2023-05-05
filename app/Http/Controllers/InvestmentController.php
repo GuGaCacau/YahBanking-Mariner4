@@ -9,7 +9,7 @@ use App\Http\Requests\InvestmentRequest;
 
 //Incluindo os Models para utilizar o Eloquent no controlador
 use \App\Models\Client;
-use App\Models\client_investment;
+use App\Models\ClientInvestment;
 use \App\Models\Investment;
 use Illuminate\Support\Facades\DB;
 
@@ -76,7 +76,7 @@ class InvestmentController extends Controller
     public function delete($id)
     {
         //Acessando todos os investimentos de clientes feitos nesse investimento
-        $client_investments = client_investment::select('*')->where("client_investment.investment_id", '=', $id)->get();
+        $client_investments = ClientInvestment::select('*')->where("client_investment.investment_id", '=', $id)->get();
 
         foreach ($client_investments as $client_investment) {
             //Devolvendo os valores aplicados a cada cliente que possui esse investimento

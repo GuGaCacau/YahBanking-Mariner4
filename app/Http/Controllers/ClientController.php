@@ -12,7 +12,7 @@ use App\Http\Requests\ClientPatchRequest;
 
 //Incluindo os Models para utilizar o Eloquent no controlador
 use \App\Models\Client;
-use App\Models\client_investment;
+use App\Models\ClientInvestment;
 use \App\Models\Investment;
 use Illuminate\Support\Facades\DB;
 
@@ -164,7 +164,7 @@ class ClientController extends Controller
 
         //PATCH do cliente no banco de dados
         $client = Client::find($client_id);
-        $client_investment = client_investment::find($invested_id);
+        $client_investment = ClientInvestment::find($invested_id);
 
         //Se o novo valor for maior que o disponível do cliente, retorna
         if ($new_valor  > $client->uninvested_amount) {
@@ -189,7 +189,7 @@ class ClientController extends Controller
 
         //PATCH do cliente no banco de dados
         $client = Client::find($client_id);
-        $client_investment = client_investment::find($invested_id);
+        $client_investment = ClientInvestment::find($invested_id);
 
         //Se o valor resgatado for maior que o investido, retorna
         if ($new_valor > $client_investment->investment_amount) {
@@ -231,7 +231,7 @@ class ClientController extends Controller
         $client->uninvested_amount = $client->uninvested_amount - $invest_valor;
         $client->invested_amount = $client->invested_amount + $invest_valor;
         $client->save();
-        $client_investment = new client_investment;
+        $client_investment = new ClientInvestment;
         $client_investment->client_id = $client_id;
         $client_investment->investment_id = $investment_id;
         $client_investment->investment_amount = $invest_valor;
