@@ -7,7 +7,7 @@
 <!-- Corpo da Página -->
 @section('content')
 
-        <!-- Mensagens de erro tiradas do ClientRequest -->
+        <!-- Mensagens de erro tiradas do InvestmentRequest -->
         @if ($errors->any())
         <div class="alert alert-danger">
             <ul>

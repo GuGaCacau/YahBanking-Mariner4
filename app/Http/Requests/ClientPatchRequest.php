@@ -13,7 +13,7 @@ class ClientPatchRequest extends FormRequest
         return [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
         ];
     }
 
@@ -24,6 +24,7 @@ class ClientPatchRequest extends FormRequest
             'first_name.required' => 'Por favor, complete o campo de "Nome".',
             'last_name.required' => 'Por favor, complete o campo de "Sobrenome".',
             'email.required' => 'Por favor, complete o campo de "Email".',
+            'email.email' => 'Por favor, escolha um email válido.',
         ];
     }
 }
