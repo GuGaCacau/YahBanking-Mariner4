@@ -41,6 +41,17 @@ $second_table_head = [
 </div>
 @endif
 
+<!-- Mensagens de erro tiradas do InvestRetrieveRequest -->
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
 <!-- Containers com as informações do Cliente -->
 <div class="row">
     <div class="col-lg-3 ms-5">
@@ -196,7 +207,7 @@ $second_table_head = [
                                 @csrf
                                 @method('PUT')
                                     <div class="form-outline mt-3">
-                                      <input type="text" class="form-control" name="retrieve_valor" id="recipient-name">
+                                      <input type="text" class="form-control" name="new_valor" id="recipient-name">
                                     </div>
                                     <div class="row justify-content-end">
                                         <button type="button" class="btn modal-no-btn mt-3 col-2" data-dismiss="modal">Voltar</button>
@@ -263,7 +274,7 @@ $second_table_head = [
                               <form action='{{ route("client.new.investment", [$investment2->id, $client->id])}}' method="post">
                               @csrf
                                   <div class="form-outline mt-3">
-                                    <input type="text" class="form-control" name="invest_valor" id="recipient-name">
+                                    <input type="text" class="form-control" name="new_valor" id="recipient-name">
                                   </div>
                                   <div class="row justify-content-end">
                                       <button type="button" class="btn modal-no-btn mt-3 col-2" data-dismiss="modal">Voltar</button>

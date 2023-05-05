@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 // Regras de validação customizadas para clientes
 use App\Http\Requests\ClientRequest;
 use App\Http\Requests\ClientPatchRequest;
+use App\Http\Requests\InvestRetrieveRequest;
 
 //Incluindo os Models para utilizar o Eloquent no controlador
 use \App\Models\Client;
@@ -172,7 +173,7 @@ class ClientController extends Controller
     }
 
     //Função para adicionar valor investido do cliente em investimento no banco de dados
-    public function invest(Request $request, $invested_id, $client_id)
+    public function invest(InvestRetrieveRequest $request, $invested_id, $client_id)
     {
         //Mudando vírgula para ponto a fim de guardar no banco de dados
         $new_valor = str_replace(",", ".", $request->new_valor);
@@ -197,10 +198,10 @@ class ClientController extends Controller
     }
 
     //Função para resgatar valor investido do cliente em investimento no banco de dados
-    public function retrieve(Request $request, $invested_id, $client_id)
+    public function retrieve(InvestRetrieveRequest $request, $invested_id, $client_id)
     {
         //Mudando vírgula para ponto a fim de guardar no banco de dados
-        $new_valor = str_replace(",", ".", $request->retrieve_valor);
+        $new_valor = str_replace(",", ".", $request->new_valor);
         $new_valor = (float)$new_valor;
 
         //PATCH do cliente no banco de dados
@@ -230,10 +231,10 @@ class ClientController extends Controller
     }
 
     //Função para adicionar novo investimento de um cliente
-    public function new_investment(Request $request, $investment_id, $client_id)
+    public function new_investment(InvestRetrieveRequest $request, $investment_id, $client_id)
     {
         //Mudando vírgula para ponto a fim de guardar no banco de dados
-        $invest_valor = str_replace(",", ".", $request->invest_valor);
+        $invest_valor = str_replace(",", ".", $request->new_valor);
         $invest_valor = (float)$invest_valor;
 
         $client = Client::find($client_id);
