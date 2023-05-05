@@ -107,6 +107,18 @@ class ClientController extends Controller
     //Função para deletar um cliente
     public function delete($id)
     {
+        //Acessando todos os investimentos feitos por esse cliente
+        $client_investments = ClientInvestment::select('*')->where("client_investment.client_id", '=', $id)->get();
+
+        foreach ($client_investments as $client_investment) {
+            //Devolvendo os valores aplicados do cliente nesse investimento
+            $client = Client::find($client_investment->client_id);
+            $client->uninvested_amount = $client->uninvested_amount + $client_investment->investment_amount;
+            $client->invested_amount = $client->invested_amount - $client_investment->investment_amount;
+            $client->save();
+            $client_investment->delete();
+        }
+
         //Cliente específico pelo ID passado
         $client = Client::find($id);
 
