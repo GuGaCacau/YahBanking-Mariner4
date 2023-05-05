@@ -19,27 +19,27 @@ use App\Http\Controllers\InvestmentController;
 */
 
 //Rotas Principais
-Route::get('/', [MainController::class, 'index']);
-Route::get('/investments', [MainController::class, 'investments']);
+Route::get('/', [MainController::class, 'index'])->name("index");
+Route::get('/investments', [MainController::class, 'investments'])->name("investments");
 
 //Rotas de Clientes
-Route::get('/client_add', [ClientController::class, 'add']);
-Route::get('/client_edit/{id}', [ClientController::class, 'edit']);
-Route::post('/client_post', [ClientController::class, 'post']);
-Route::post('/client_patch/{id}', [ClientController::class, 'patch']);
-Route::post('/client_patch_avatar/{id}', [ClientController::class, 'patch_with_avatar']);
-Route::get('/client_delete/{id}', [ClientController::class, 'delete']);
-Route::get('/client_investment/{id}', [ClientController::class, 'investment']);
-Route::post('/client_invest/{invested_id}/{client_id}', [ClientController::class, 'invest']);
-Route::post('/client_retrieve/{invested_id}/{client_id}', [ClientController::class, 'retrieve']);
-Route::post('/client_new_invest/{investment_id}/{client_id}', [ClientController::class, 'new_investment']);
+Route::get('/client/add', [ClientController::class, 'add'])->name("client.add");
+Route::get('/client/edit/{id}', [ClientController::class, 'edit'])->name("client.edit");
+Route::post('/client/post', [ClientController::class, 'post'])->name("client.post");
+Route::post('/client/patch/{id}', [ClientController::class, 'patch'])->name("client.patch");
+Route::post('/client/patch_avatar/{id}', [ClientController::class, 'patch_with_avatar'])->name("client.patch.avatar");
+Route::get('/client/delete/{id}', [ClientController::class, 'delete'])->name("client.delete");
+Route::get('/client/investment/{id}', [ClientController::class, 'investment'])->name("client.investment");
+Route::post('/client/investment/invest/{invested_id}/{client_id}', [ClientController::class, 'invest'])->name("client.invest");
+Route::post('/client/investment/retrieve/{invested_id}/{client_id}', [ClientController::class, 'retrieve'])->name("client.retrieve");
+Route::post('/client/investment/new_invest/{investment_id}/{client_id}', [ClientController::class, 'new_investment'])->name("client.new.investment");
 
 
 
 //Rotas de Investimentos
-Route::get('/investment_add', [InvestmentController::class, 'add']);
-Route::get('/investment_edit/{id}', [InvestmentController::class, 'edit']);
-Route::post('/investment_post', [InvestmentController::class, 'post']);
-Route::post('/investment_patch/{id}', [InvestmentController::class, 'patch']);
-Route::get('/investment_info/{id}', [InvestmentController::class, 'info']);
-Route::get('/investment_delete/{id}', [InvestmentController::class, 'delete']);
+Route::get('/investment/add', [InvestmentController::class, 'add'])->name("investment.add");
+Route::get('/investment/edit/{id}', [InvestmentController::class, 'edit'])->name("investment.edit");
+Route::post('/investment/post', [InvestmentController::class, 'post'])->name("investment.post");
+Route::post('/investment/patch/{id}', [InvestmentController::class, 'patch'])->name("investment.patch");
+Route::get('/investment/info/{id}', [InvestmentController::class, 'info'])->name("investment.info");
+Route::get('/investment/delete/{id}', [InvestmentController::class, 'delete'])->name("investment.delete");

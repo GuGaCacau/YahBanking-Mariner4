@@ -1,7 +1,7 @@
 <header>
     <div class="container mb-3" id="nav-container">
         <nav class="navbar navbar-dark navbar-expand-md">
-            <a href="/" class="navbar-brand">
+            <a href="{{ route("index") }}" class="navbar-brand">
                 <small class="logo_title">YahBanking</small>
                 <small class="logo_link">Mariner4</small>
             </a>
@@ -10,12 +10,12 @@
             </button>
             <div class="navbar-collapse collapse justify-content-end mx-2" id="navbar-links">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a href="/" class="nav-link
+                    <li class="nav-item"><a href="{{ route("index") }}" class="nav-link
                     @hasSection('navbar-clients')
                         @yield('navbar-clients')
                     @endif
                         ">Clientes</a></li>
-                    <li class="nav-item"><a href="/investments" class="nav-link
+                    <li class="nav-item"><a href="{{ route("investments") }}" class="nav-link
                     @hasSection('navbar-investments')
                         @yield('navbar-investments')
                     @endif    

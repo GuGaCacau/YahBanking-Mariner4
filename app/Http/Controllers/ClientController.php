@@ -62,7 +62,7 @@ class ClientController extends Controller
         $client->uninvested_amount = $constants["valor_total"];
         $client->save();
 
-        return redirect('/')->with('success', 'Cadastro Realizado com Sucesso!');
+        return redirect()->route('index')->with('success', 'Cadastro Realizado com Sucesso!');
     }
 
     //Função para atualizar clientes (sem novo avatar) no banco de dados
@@ -75,7 +75,7 @@ class ClientController extends Controller
         $client->email = $request->email;
         $client->save();
 
-        return redirect('/')->with('success', 'Cadastro Atualizado com Sucesso!');
+        return redirect()->route('index')->with('success', 'Cadastro Atualizado com Sucesso!');
     }
 
     //Função para atualizar clientes (com novo avatar) no banco de dados
@@ -101,7 +101,7 @@ class ClientController extends Controller
         $client->avatar = $avatar_path;
         $client->save();
 
-        return redirect('/')->with('success', 'Cadastro Atualizado com Sucesso!');
+        return redirect()->route('index')->with('success', 'Cadastro Atualizado com Sucesso!');
     }
 
     //Função para deletar um cliente
@@ -112,7 +112,7 @@ class ClientController extends Controller
 
         $client->delete();
 
-        return redirect('/')->with('success', 'Cliente excluído com Sucesso!');
+        return redirect()->route('index')->with('success', 'Cliente excluído com Sucesso!');
     }
 
     //Função para ir à tela de investimentos de um cliente
@@ -168,7 +168,7 @@ class ClientController extends Controller
 
         //Se o novo valor for maior que o disponível do cliente, retorna
         if ($new_valor  > $client->uninvested_amount) {
-            return redirect('/client_investment/' . $client_id)->with('fail', 'Não é possível investir mais que o disponível!');
+            return redirect()->route('client.investment', $client_id)->with('fail', 'Não é possível investir mais que o disponível!');
         }
 
         //Se o novo valor for menor que o disponível ou igual, computa o investimento
@@ -177,7 +177,7 @@ class ClientController extends Controller
         $client_investment->investment_amount = $client_investment->investment_amount + $new_valor;
         $client->save();
         $client_investment->save();
-        return redirect('/client_investment/' . $client_id)->with('success', 'Investimento Atualizado com Sucesso!');
+        return redirect()->route('client.investment', $client_id)->with('success', 'Investimento Atualizado com Sucesso!');
     }
 
     //Função para resgatar valor investido do cliente em investimento no banco de dados
@@ -193,7 +193,7 @@ class ClientController extends Controller
 
         //Se o valor resgatado for maior que o investido, retorna
         if ($new_valor > $client_investment->investment_amount) {
-            return redirect('/client_investment/' . $client_id)->with('fail', 'Não é possível resgatar um valor maior que o investido!');
+            return redirect()->route('client.investment', $client_id)->with('fail', 'Não é possível resgatar um valor maior que o investido!');
         }
         //Se o valor resgatado for igual ao investido, deleta o investimento
         elseif ($new_valor == $client_investment->investment_amount) {
@@ -201,7 +201,7 @@ class ClientController extends Controller
             $client->invested_amount = $client->invested_amount - $new_valor;
             $client->save();
             $client_investment->delete();
-            return redirect('/client_investment/' . $client_id)->with('success', 'Investimento totalmente resgatado.');
+            return redirect()->route('client.investment', $client_id)->with('success', 'Investimento totalmente resgatado.');
         }
 
         //Se o valor resgatado for menor que o investido ou igual, computa o investimento
@@ -210,7 +210,7 @@ class ClientController extends Controller
         $client_investment->investment_amount = $client_investment->investment_amount - $new_valor;
         $client->save();
         $client_investment->save();
-        return redirect('/client_investment/' . $client_id)->with('success', 'Valor Resgatado com Sucesso!');
+        return redirect()->route('client.investment', $client_id)->with('success', 'Valor Resgatado com Sucesso!');
     }
 
     //Função para adicionar novo investimento de um cliente
@@ -224,7 +224,7 @@ class ClientController extends Controller
 
         //Se o novo valor for maior que o disponível do cliente, retorna
         if ($invest_valor  > $client->uninvested_amount) {
-            return redirect('/client_investment/' . $client_id)->with('fail', 'Não é possível investir mais que o disponível!');
+            return redirect()->route('client.investment', $client_id)->with('fail', 'Não é possível investir mais que o disponível!');
         }
 
         //Se o novo valor for menor que o disponível ou igual, computa o novo investimento
@@ -237,6 +237,6 @@ class ClientController extends Controller
         $client_investment->investment_amount = $invest_valor;
         $client_investment->save();
 
-        return redirect('/client_investment/' . $client_id)->with('success', 'Novo Investimento Realizado com Sucesso!');
+        return redirect()->route('client.investment', $client_id)->with('success', 'Novo Investimento Realizado com Sucesso!');
     }
 }

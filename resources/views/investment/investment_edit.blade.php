@@ -21,7 +21,7 @@
     <!-- Formulário para Atualização de um Cliente -->
     <div class="col-5 container mt-4 px-5 border border-4 border-dark rounded-3">
         <h4 class="text-light mt-4 mb-4 text-center">Atualização de Investimento</h4>
-        <form id="form_head" style="color:white" action="/investment_patch/{{$investment->id}}" method="post" enctype="multipart/form-data">
+        <form id="form_head" style="color:white" action="{{ route("investment.patch", $investment->id) }}" method="post" enctype="multipart/form-data">
         @csrf
             <!-- Input do Nome -->
             <div class="form-outline mb-2">

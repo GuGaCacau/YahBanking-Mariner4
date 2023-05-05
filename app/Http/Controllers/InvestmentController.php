@@ -40,7 +40,7 @@ class InvestmentController extends Controller
         $investment->description = $request->description;
         $investment->save();
 
-        return redirect('/investments')->with('success', 'Cadastro Realizado com Sucesso!');
+        return redirect()->route('investments')->with('success', 'Cadastro Realizado com Sucesso!');
     }
 
     //Função para atualizar investimentos no banco de dados
@@ -53,7 +53,7 @@ class InvestmentController extends Controller
         $investment->description = $request->description;
         $investment->save();
 
-        return redirect('/investments')->with('success', 'Cadastro Atualizado com Sucesso!');
+        return redirect()->route('investments')->with('success', 'Cadastro Atualizado com Sucesso!');
     }
 
     //Função para ir à tela de info de um investimento
@@ -92,6 +92,6 @@ class InvestmentController extends Controller
 
         $investment->delete();
 
-        return redirect('/investments')->with('success', 'Investimento excluído com Sucesso!');
+        return redirect()->route('investments')->with('success', 'Investimento excluído com Sucesso!');
     }
 }

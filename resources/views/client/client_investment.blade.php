@@ -162,7 +162,7 @@ $second_table_head = [
                                 <br>
                                 Valor disponível: R$
                                 {{number_format(($client->uninvested_amount), 2, ',','.');}}
-                                <form action="{{url("/client_invest/$investment->invest_id/$client->id")}}" method="post">
+                                <form action="{{ route("client.invest", [$investment->invest_id, $client->id])}}" method="post">
                                 @csrf
                                     <div class="form-outline mt-3">
                                       <input type="text" class="form-control" name="new_valor" id="recipient-name">
@@ -191,7 +191,7 @@ $second_table_head = [
                                 Valor investido: R$
                                 {{number_format(($investment->investment_amount), 2, ',','.');}}
                                 <br>
-                                <form action='{{url("/client_retrieve/$investment->invest_id/$client->id")}}' method="post">
+                                <form action='{{ route("client.retrieve", [$investment->invest_id, $client->id])}}' method="post">
                                 @csrf
                                     <div class="form-outline mt-3">
                                       <input type="text" class="form-control" name="retrieve_valor" id="recipient-name">
@@ -258,7 +258,7 @@ $second_table_head = [
                               <br>
                               Valor disponível: R$
                               {{number_format(($client->uninvested_amount), 2, ',','.');}}
-                              <form action='{{url("/client_new_invest/$investment2->id/$client->id")}}' method="post">
+                              <form action='{{ route("client.new.investment", [$investment2->id, $client->id])}}' method="post">
                               @csrf
                                   <div class="form-outline mt-3">
                                     <input type="text" class="form-control" name="invest_valor" id="recipient-name">

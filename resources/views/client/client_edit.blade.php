@@ -21,7 +21,7 @@
     <!-- Formulário para Atualização de um Cliente -->
     <div class="col-5 container mt-4 px-5 border border-4 border-dark rounded-3">
         <h4 class="text-light mt-4 mb-4 text-center">Atualização de Cliente</h4>
-        <form id="form_head" style="color:white" action="/client_patch/{{$client->id}}" method="post" enctype="multipart/form-data">
+        <form id="form_head" style="color:white" action="{{ route("client.patch", $client->id) }}" method="post" enctype="multipart/form-data">
         @csrf
             <!-- Input do Nome -->
             <div class="form-outline mb-2">
@@ -68,10 +68,10 @@
         checkbox.onclick = function() {
             if(this.checked) {
                 avatar_form.style['display'] = 'block';
-                form_head.action = '/client_patch_avatar/{{$client->id}}';
+                form_head.action = '{{ route("client.patch.avatar", $client->id) }}';
             } else {
                 avatar_form.style['display'] = 'none';
-                form_head.action = '/client_patch/{{$client->id}}';
+                form_head.action = '{{ route("client.patch", $client->id) }}';
             }
         };
     </script>

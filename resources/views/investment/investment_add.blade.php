@@ -21,7 +21,7 @@
     <!-- Formulário para Cadastro de novo Investimento -->
     <div class="col-5 container mt-4 px-5 border border-4 border-dark rounded-3">
         <h4 class="text-light mt-4 mb-4 text-center">Cadastro de Investimentos</h4>
-        <form style="color:white" action="{{url('/investment_post')}}" method="post" enctype="multipart/form-data">
+        <form style="color:white" action="{{ route("investment.post") }}" method="post" enctype="multipart/form-data">
         @csrf
             <!-- Input do Nome -->
             <div class="form-outline mb-2">

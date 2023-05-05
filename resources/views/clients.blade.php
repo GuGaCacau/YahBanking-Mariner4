@@ -37,7 +37,7 @@ $table_head = [
 
     <!-- Botão de adicionar clientes -->
     <div style="background-color:#262b2e;">
-        <a class="btn btn-default add_btn" href="/client_add"><i class="fa fa-add"></i> Adicionar Cliente</a>
+        <a class="btn btn-default add_btn" href="{{ route("client.add") }}"><i class="fa fa-add"></i> Adicionar Cliente</a>
     </div>
 
     <!-- Condição para caso não haja cadastro -->
@@ -73,10 +73,10 @@ $table_head = [
                         {{number_format($client->uninvested_amount, 2, ',','.');}}
                         </td>
                         <td class="text-center" scope="col">
-                            <a class="btn btn-default border-secondary" href="/client_edit/{{$client->id}}"><i class="fa fa-pen-to-square"></i></a>
+                            <a class="btn btn-default border-secondary" href="{{ route("client.edit", $client->id) }}"><i class="fa fa-pen-to-square"></i></a>
                         </td>  
                         <td class="text-center" scope="col">
-                            <a class="btn btn-default invest_btn border-secondary" href="/client_investment/{{$client->id}}"><i class="fa fa-money-bill-trend-up"></i></a>
+                            <a class="btn btn-default invest_btn border-secondary" href="{{ route("client.investment", $client->id) }}"><i class="fa fa-money-bill-trend-up"></i></a>
                         </td> 
                         <td class="text-center" scope="col">
                             <a class="btn btn-default delete_btn border-secondary" data-toggle="modal" data-target=".delete_modal_{{$client->id}}"><i class="fa fa-trash-can"></i></a>
@@ -96,7 +96,7 @@ $table_head = [
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn modal-no-btn" data-dismiss="modal">Não</button>
-                                <a type="button" class="btn modal-yes-btn" href="/client_delete/{{$client->id}}">Sim</a>
+                                <a type="button" class="btn modal-yes-btn" href="{{ route("client.delete", $client->id) }}">Sim</a>
                                 </div>
                             </div>
                             </div>

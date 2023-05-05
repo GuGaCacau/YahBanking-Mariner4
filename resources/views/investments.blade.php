@@ -32,7 +32,7 @@ $table_head = [
 
     <!-- Botão de adicionar investimentos -->
     <div style="background-color:#262b2e;">
-        <a class="btn btn-default add_btn" href="/investment_add"><i class="fa fa-add"></i> Adicionar Investimento</a>
+        <a class="btn btn-default add_btn" href="{{ route("investment.add") }}"><i class="fa fa-add"></i> Adicionar Investimento</a>
     </div>
 
     <!-- Condição para caso não haja cadastro -->
@@ -55,10 +55,10 @@ $table_head = [
                         <td class="text-center" scope="col">{{$investment->commercial_name}}</td>
                         <td class="text-center" scope="col">{{$investment->commercial_sail}}</td>
                         <td class="text-center" scope="col">
-                            <a class="btn btn-default border-secondary" href="/investment_edit/{{$investment->id}}"><i class="fa fa-pen-to-square"></i></a>
+                            <a class="btn btn-default border-secondary" href="{{ route("investment.edit", $investment->id) }}"><i class="fa fa-pen-to-square"></i></a>
                         </td>  
                         <td class="text-center" scope="col">
-                            <a class="btn btn-default border-secondary" href="/investment_info/{{$investment->id}}"><i class="fa fa-search"></i></a>
+                            <a class="btn btn-default border-secondary" href="{{ route("investment.info", $investment->id) }}"><i class="fa fa-search"></i></a>
                         </td> 
                         <td class="text-center" scope="col">
                             <a class="btn btn-default delete_btn border-secondary" data-toggle="modal" data-target=".delete_modal_{{$investment->id}}"><i class="fa fa-trash-can"></i></a>
@@ -77,7 +77,7 @@ $table_head = [
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn modal-no-btn" data-dismiss="modal">Não</button>
-                                    <a type="button" class="btn modal-yes-btn" href="/investment_delete/{{$investment->id}}">Sim</a>
+                                    <a type="button" class="btn modal-yes-btn" href="{{ route("investment.delete", $investment->id) }}">Sim</a>
                                 </div>
                             </div>
                             </div>
