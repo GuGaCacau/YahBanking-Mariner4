@@ -27,8 +27,10 @@ class ClientController extends Controller
     //Função para ir à tela de atualizar um cliente
     public function edit($id)
     {
-        //Cliente específico pelo ID passado
-        $client = Client::find($id);
+        //Cliente específico pelo ID passado, volta caso não seja um ID válido
+        if(!$client = Client::find($id)){
+            return back();
+        }
 
         return view('client.client_edit', ['client' => $client]);
     }
@@ -130,8 +132,10 @@ class ClientController extends Controller
     //Função para ir à tela de investimentos de um cliente
     public function investment($id)
     {
-        //Cliente específico pelo ID passado
-        $client = Client::find($id);
+        //Cliente específico pelo ID passado, volta caso não seja um ID válido
+        if(!$client = Client::find($id)){
+            return back();
+        }
 
         $investment_list = Investment::all();
 

@@ -24,8 +24,10 @@ class InvestmentController extends Controller
     //Função para ir à tela de atualizar um investimento
     public function edit($id)
     {
-        //Investimento específico pelo ID passado
-        $investment = Investment::find($id);
+        //Investimento específico pelo ID passado, volta caso não seja um ID válido
+        if(!$investment = Investment::find($id)){
+            return back();
+        }
 
         return view('investment.investment_edit', ['investment' => $investment]);
     }
@@ -59,15 +61,17 @@ class InvestmentController extends Controller
     //Função para ir à tela de info de um investimento
     public function info($id)
     {
+        //Investimento específico pelo ID passado, volta caso não seja um ID válido
+        if(!$investment = Investment::find($id)){
+            return back();
+        }
+
         //Investimentos do Cliente
         $clients = DB::table('client_investment')
             ->where('investment_id', '=', $id)
             ->join('clients', 'client_investment.client_id', '=', 'clients.id')
             ->select('clients.*', 'client_investment.investment_amount')
             ->get();
-
-        //Investimento específico pelo ID passado
-        $investment = Investment::find($id);
 
         return view('investment.investment_info', ['investment' => $investment, 'clients' => $clients]);
     }
