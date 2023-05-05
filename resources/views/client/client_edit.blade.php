@@ -23,6 +23,7 @@
         <h4 class="text-light mt-4 mb-4 text-center">Atualização de Cliente</h4>
         <form id="form_head" style="color:white" action="{{ route("client.patch", $client->id) }}" method="post" enctype="multipart/form-data">
         @csrf
+        @method('PUT')
             <!-- Input do Nome -->
             <div class="form-outline mb-2">
             <input type="text" class="form-control" name="first_name" value="{{$client->first_name}}"/>

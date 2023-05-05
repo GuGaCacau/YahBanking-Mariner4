@@ -96,7 +96,11 @@ $table_head = [
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn modal-no-btn" data-dismiss="modal">Não</button>
-                                <a type="button" class="btn modal-yes-btn" href="{{ route("client.delete", $client->id) }}">Sim</a>
+                                <form action="{{ route("client.delete", $client->id) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                    <button type="submit" class="btn modal-yes-btn">Sim</button>
+                                </form>
                                 </div>
                             </div>
                             </div>

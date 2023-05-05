@@ -23,6 +23,7 @@
         <h4 class="text-light mt-4 mb-4 text-center">Atualização de Investimento</h4>
         <form id="form_head" style="color:white" action="{{ route("investment.patch", $investment->id) }}" method="post" enctype="multipart/form-data">
         @csrf
+        @method('PUT')
             <!-- Input do Nome -->
             <div class="form-outline mb-2">
             <input type="text" class="form-control" name="commercial_name" value="{{$investment->commercial_name}}"/>

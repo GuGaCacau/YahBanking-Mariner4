@@ -164,6 +164,7 @@ $second_table_head = [
                                 {{number_format(($client->uninvested_amount), 2, ',','.');}}
                                 <form action="{{ route("client.invest", [$investment->invest_id, $client->id])}}" method="post">
                                 @csrf
+                                @method('PUT')
                                     <div class="form-outline mt-3">
                                       <input type="text" class="form-control" name="new_valor" id="recipient-name">
                                     </div>
@@ -193,6 +194,7 @@ $second_table_head = [
                                 <br>
                                 <form action='{{ route("client.retrieve", [$investment->invest_id, $client->id])}}' method="post">
                                 @csrf
+                                @method('PUT')
                                     <div class="form-outline mt-3">
                                       <input type="text" class="form-control" name="retrieve_valor" id="recipient-name">
                                     </div>
