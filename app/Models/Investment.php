@@ -14,7 +14,7 @@ class Investment extends Model
     use SoftDeletes;
 
     // $fillabe para cadastrar informações em massa
-    protected $fillabe = [
+    protected $fillable = [
         'commercial_name',
         'commercial_sail',
         'description',

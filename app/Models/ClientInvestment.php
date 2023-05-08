@@ -12,7 +12,7 @@ class ClientInvestment extends Model
     protected $table = 'client_investment';
 
     // $fillabe para cadastrar informações em massa
-    protected $fillabe = [
+    protected $fillable = [
         'client_id',
         'investment_id',
         'investment_amount',

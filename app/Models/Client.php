@@ -14,7 +14,7 @@ class Client extends Model
     use SoftDeletes;
 
     // $fillabe para cadastrar informações em massa
-    protected $fillabe = [
+    protected $fillable = [
         'first_name',
         'last_name',
         'email',
