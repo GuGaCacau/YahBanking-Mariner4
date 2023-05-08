@@ -4,16 +4,18 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use Illuminate\Validation\Rule;
+
 class ClientPatchRequest extends FormRequest
 {
     
     public function rules(): array
     {
-        //Validando o tamanho e tipo da imagem do avatar e se existem as outras infos
         return [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|email',
+            'email' => ['required','email',
+                Rule::unique('clients', 'email')->ignore($this->id)],
         ];
     }
 
@@ -25,6 +27,7 @@ class ClientPatchRequest extends FormRequest
             'last_name.required' => 'Por favor, complete o campo de "Sobrenome".',
             'email.required' => 'Por favor, complete o campo de "Email".',
             'email.email' => 'Por favor, escolha um email válido.',
+            'email.unique' => 'O email escolhido já está cadastrado.',
         ];
     }
 }
