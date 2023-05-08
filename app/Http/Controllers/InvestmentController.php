@@ -29,7 +29,7 @@ class InvestmentController extends Controller
             return back();
         }
 
-        return view('investment.investment_edit', ['investment' => $investment]);
+        return view('investment.investment_edit', compact('investment'));
     }
 
     //Função para adicionar investimentos no banco de dados
@@ -66,7 +66,7 @@ class InvestmentController extends Controller
             ->select('clients.*', 'client_investment.investment_amount')
             ->get();
 
-        return view('investment.investment_info', ['investment' => $investment, 'clients' => $clients]);
+        return view('investment.investment_info', compact('investment', 'clients'));
     }
 
     //Função para deletar um investimento

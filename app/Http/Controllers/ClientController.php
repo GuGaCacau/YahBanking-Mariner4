@@ -33,7 +33,7 @@ class ClientController extends Controller
             return back();
         }
 
-        return view('client.client_edit', ['client' => $client]);
+        return view('client.client_edit', compact('client'));
     }
 
     //Função para adicionar clientes no banco de dados
@@ -171,7 +171,7 @@ class ClientController extends Controller
             $not_invested = [];
         }
 
-        return view('client.client_investment', ['client' => $client, 'investments' => $investments, 'not_invested' => $not_invested]);
+        return view('client.client_investment', compact('client', 'investments', 'not_invested'));
     }
 
     //Função para adicionar valor investido do cliente em investimento no banco de dados
