@@ -52,33 +52,33 @@ class ClientController extends Controller
         $avatar_name = time() . '.' . $request->avatar->extension();
 
         //Salvando a imagem do avatar na pasta "public/images" do projeto
+        //TODO: Salvar imagem na Storage
         $request->avatar->move($path, $avatar_name);
         $avatar_path = "images/" . $avatar_name;
 
         //POST do novo cliente no banco de dados
-        $client = new Client;
-        $client->first_name = $request->first_name;
-        $client->last_name = $request->last_name;
-        $client->email = $request->email;
-        $client->avatar = $avatar_path;
-        $client->invested_amount = 0;
-        $client->uninvested_amount = $constants["valor_total"];
-        $client->save();
+        Client::create(
+            array_merge($request->only('first_name', 'last_name', 'email'), [
+                'avatar' => $avatar_path,
+                'invested_amount' => 0,
+                'uninvested_amount' => $constants["valor_total"]
+            ])); 
 
-        return redirect()->route('index')->with('success', 'Cadastro Realizado com Sucesso!');
+        return redirect()->route('index')->with('success', "Cliente cadastrado(a) com Sucesso!");
     }
 
     //Função para atualizar clientes (sem novo avatar) no banco de dados
     public function patch(ClientPatchRequest $request, $id)
     {
         //PATCH do cliente no banco de dados
-        $client = Client::find($id);
-        $client->first_name = $request->first_name;
-        $client->last_name = $request->last_name;
-        $client->email = $request->email;
-        $client->save();
+        Client::find($id)
+            ->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'email' => $request->email
+            ]);
 
-        return redirect()->route('index')->with('success', 'Cadastro Atualizado com Sucesso!');
+        return redirect()->route('index')->with('success', "Cliente atualizado(a) com Sucesso!");
     }
 
     //Função para atualizar clientes (com novo avatar) no banco de dados
@@ -93,18 +93,20 @@ class ClientController extends Controller
         $avatar_name = time() . '.' . $request->avatar->extension();
 
         //Salvando a imagem do avatar na pasta "public/images" do projeto
+        //TODO: Salvar imagem na Storage
         $request->avatar->move($path, $avatar_name);
         $avatar_path = "images/" . $avatar_name;
 
         //PATCH do cliente no banco de dados
-        $client = Client::find($id);
-        $client->first_name = $request->first_name;
-        $client->last_name = $request->last_name;
-        $client->email = $request->email;
-        $client->avatar = $avatar_path;
-        $client->save();
+        Client::find($id)
+            ->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+                'avatar' => $avatar_path
+            ]);
 
-        return redirect()->route('index')->with('success', 'Cadastro Atualizado com Sucesso!');
+        return redirect()->route('index')->with('success', "Cliente atualizado(a) com Sucesso!");
     }
 
     //Função para deletar um cliente
@@ -127,7 +129,7 @@ class ClientController extends Controller
 
         $client->delete();
 
-        return redirect()->route('index')->with('success', 'Cliente excluído com Sucesso!');
+        return redirect()->route('index')->with('success', 'Cliente excluído(a) com Sucesso!');
     }
 
     //Função para ir à tela de investimentos de um cliente
@@ -179,7 +181,7 @@ class ClientController extends Controller
         $new_valor = str_replace(",", ".", $request->new_valor);
         $new_valor = (float)$new_valor;
 
-        //PATCH do cliente no banco de dados
+        //Acessando o cliente e sua relação com investimento do banco de dados
         $client = Client::find($client_id);
         $client_investment = ClientInvestment::find($invested_id);
 
@@ -194,6 +196,7 @@ class ClientController extends Controller
         $client_investment->investment_amount = $client_investment->investment_amount + $new_valor;
         $client->save();
         $client_investment->save();
+
         return redirect()->route('client.investment', $client_id)->with('success', 'Investimento Atualizado com Sucesso!');
     }
 
@@ -204,7 +207,7 @@ class ClientController extends Controller
         $new_valor = str_replace(",", ".", $request->new_valor);
         $new_valor = (float)$new_valor;
 
-        //PATCH do cliente no banco de dados
+        //Acessando o cliente e sua relação com investimento do banco de dados
         $client = Client::find($client_id);
         $client_investment = ClientInvestment::find($invested_id);
 
@@ -227,6 +230,7 @@ class ClientController extends Controller
         $client_investment->investment_amount = $client_investment->investment_amount - $new_valor;
         $client->save();
         $client_investment->save();
+
         return redirect()->route('client.investment', $client_id)->with('success', 'Valor Resgatado com Sucesso!');
     }
 
@@ -237,6 +241,7 @@ class ClientController extends Controller
         $invest_valor = str_replace(",", ".", $request->new_valor);
         $invest_valor = (float)$invest_valor;
 
+        //Acessando o cliente do banco de dados
         $client = Client::find($client_id);
 
         //Se o novo valor for maior que o disponível do cliente, retorna
@@ -248,11 +253,11 @@ class ClientController extends Controller
         $client->uninvested_amount = $client->uninvested_amount - $invest_valor;
         $client->invested_amount = $client->invested_amount + $invest_valor;
         $client->save();
-        $client_investment = new ClientInvestment;
-        $client_investment->client_id = $client_id;
-        $client_investment->investment_id = $investment_id;
-        $client_investment->investment_amount = $invest_valor;
-        $client_investment->save();
+        ClientInvestment::create([
+                'client_id' => $client_id,
+                'investment_id' => $investment_id,
+                'investment_amount' => $invest_valor
+        ]); 
 
         return redirect()->route('client.investment', $client_id)->with('success', 'Novo Investimento Realizado com Sucesso!');
     }

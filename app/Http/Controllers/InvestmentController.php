@@ -36,11 +36,7 @@ class InvestmentController extends Controller
     public function post(InvestmentRequest $request)
     {
         //POST do novo investimento no banco de dados
-        $investment = new Investment;
-        $investment->commercial_name = $request->commercial_name;
-        $investment->commercial_sail = $request->commercial_sail;
-        $investment->description = $request->description;
-        $investment->save();
+        Investment::create($request->all()); 
 
         return redirect()->route('investments')->with('success', 'Cadastro Realizado com Sucesso!');
     }
@@ -49,11 +45,8 @@ class InvestmentController extends Controller
     public function patch(InvestmentRequest $request, $id)
     {
         //PATCH do investimento no banco de dados
-        $investment = Investment::find($id);
-        $investment->commercial_name = $request->commercial_name;
-        $investment->commercial_sail = $request->commercial_sail;
-        $investment->description = $request->description;
-        $investment->save();
+        Investment::find($id)
+            ->update($request->all());
 
         return redirect()->route('investments')->with('success', 'Cadastro Atualizado com Sucesso!');
     }
