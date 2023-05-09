@@ -17,9 +17,10 @@ class ClientSeeder extends Seeder
      */
     public function run(): void
     {
-        //Incluindo constantes da aplicação (valor_total)
-        include(app_path('includes/constants.php'));
-        $constants = getConstants();
+        //Incluindo constante da aplicação (valor_total)
+        $valor_total = config('constants.valor_total');
+
+        #TODO: Coletar as duas páginas do link
 
         $clients = Http::get('https://reqres.in/api/users?page=1')->collect();
 
@@ -31,7 +32,7 @@ class ClientSeeder extends Seeder
                 'email' => $client["email"],
                 'avatar' => $client["avatar"],
                 'invested_amount' => 0,
-                'uninvested_amount' => $constants["valor_total"]
+                'uninvested_amount' => $valor_total
             ]);
         }
     }

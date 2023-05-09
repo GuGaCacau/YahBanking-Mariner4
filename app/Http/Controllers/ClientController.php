@@ -39,9 +39,8 @@ class ClientController extends Controller
     //Função para adicionar clientes no banco de dados
     public function post(ClientRequest $request)
     {
-        //Incluindo constantes da aplicação (valor_total)
-        include(app_path('includes/constants.php'));
-        $constants = getConstants();
+        //Incluindo constante da aplicação (valor_total)
+        $valor_total = config('constants.valor_total');
 
         //Validando a existência da pasta "images" e pegando seu path
         $path = public_path('images/');
@@ -61,7 +60,7 @@ class ClientController extends Controller
             array_merge($request->only('first_name', 'last_name', 'email'), [
                 'avatar' => $avatar_path,
                 'invested_amount' => 0,
-                'uninvested_amount' => $constants["valor_total"]
+                'uninvested_amount' => $valor_total,
             ])); 
 
         return redirect()->route('index')->with('success', "Cliente cadastrado(a) com Sucesso!");
