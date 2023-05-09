@@ -16,6 +16,7 @@ use \App\Models\Client;
 use App\Models\ClientInvestment;
 use \App\Models\Investment;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ClientController extends Controller
 {
@@ -42,18 +43,13 @@ class ClientController extends Controller
         //Incluindo constante da aplicação (valor_total)
         $valor_total = config('constants.valor_total');
 
-        //Validando a existência da pasta "images" e pegando seu path
-        $path = public_path('images/');
-        !is_dir($path) &&
-            mkdir($path, 0777, true);
+        //Criando nome do arquivo de avatar
+        $request_avatar = $request->avatar;
+        $avatar_name = time() . "." . $request_avatar->extension();
 
-        //Criando nome para a imagem do avatar de acordo com o horário
-        $avatar_name = time() . '.' . $request->avatar->extension();
-
-        //Salvando a imagem do avatar na pasta "public/images" do projeto
-        //TODO: Salvar imagem na Storage
-        $request->avatar->move($path, $avatar_name);
-        $avatar_path = "images/" . $avatar_name;
+        //Salvando a imagem em storage/app/public
+        Storage::putFileAs('public',$request_avatar, $avatar_name);
+        $avatar_path = "storage/".$avatar_name;
 
         //POST do novo cliente no banco de dados
         Client::create(

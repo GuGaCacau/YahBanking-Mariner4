@@ -58,7 +58,7 @@ $table_head = [
                     @foreach ($clients as $client)
                     <tr>
                         <td class="text-center" scope="col">
-                            <img alt="Avatar" style="height:80px;width:80px;" src={{$client->avatar}}>
+                            <img alt="Avatar" style="height:80px;width:80px;" src="{{asset($client->avatar)}}">
                         </td>
                         <td class="text-center" scope="col">{{$client->first_name}}</td>
                         <td class="text-center" scope="col">{{$client->last_name}}</td>
