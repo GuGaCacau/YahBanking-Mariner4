@@ -5,6 +5,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 //Incluindo os Models para utilizar o Eloquent no controlador
 use \App\Models\Client;
@@ -17,14 +18,16 @@ class MainController extends Controller
     {
         $clients = Client::all();
 
-        return view('clients', ['clients' => $clients]);
+        //return view('clients', ['clients' => $clients]);
+        return Inertia::render('Clients', compact('clients'));
     }
 
     //Função para a rota de investimentos
     public function investments()
     {
-        $investments = Investment::all();
-
-        return view('investments', ['investments' => $investments]);
+        $investments = Investment::all();  
+        
+        //return view('investments', ['investments' => $investments]);
+        return Inertia::render('Investments', compact('investments'));
     }
 }
