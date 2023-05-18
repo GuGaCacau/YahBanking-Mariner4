@@ -25,8 +25,8 @@ class MainController extends Controller
     //Função para a rota de investimentos
     public function investments()
     {
-        $investments = Investment::all();  
-        
+        $investments = Investment::all();
+
         //return view('investments', ['investments' => $investments]);
         return Inertia::render('Investments', compact('investments'));
     }

@@ -5,6 +5,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 // Regras de validação customizadas para clientes
 use App\Http\Requests\ClientRequest;
@@ -21,9 +22,9 @@ use Illuminate\Support\Facades\Storage;
 class ClientController extends Controller
 {
     //Função para ir à tela de adicionar um cliente
-    public function add()
+    public function create()
     {
-        return view('client.client_add');
+        return Inertia::render('Client/ClientCreate');
     }
 
     //Função para ir à tela de atualizar um cliente
@@ -57,7 +58,7 @@ class ClientController extends Controller
                 'avatar' => $avatar_path,
                 'invested_amount' => 0,
                 'uninvested_amount' => $valor_total,
-            ])); 
+            ]));
 
         return redirect()->route('index')->with('success', "Cliente cadastrado(a) com Sucesso!");
     }
@@ -252,7 +253,7 @@ class ClientController extends Controller
                 'client_id' => $client_id,
                 'investment_id' => $investment_id,
                 'investment_amount' => $invest_valor
-        ]); 
+        ]);
 
         return redirect()->route('client.investment', $client_id)->with('success', 'Novo Investimento Realizado com Sucesso!');
     }

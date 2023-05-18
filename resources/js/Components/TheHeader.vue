@@ -1,6 +1,13 @@
 <script setup>
     import { Link } from '@inertiajs/vue3'
 
+    const props = defineProps({
+        navbar: {
+            type: Object,
+            required: true
+        },
+    })
+
 </script>
 
 <template>
@@ -19,10 +26,10 @@
     <div class="hidden w-full md:block md:w-auto" id="navbar-default">
         <ul class="flex">
           <li class="mr-6">
-            <Link class="text-white hover:text-cyan-500" :href="route('index')">Clientes</Link>
+            <Link class="text-white hover:text-cyan-500" :class="navbar.clients" :href="route('index')">Clientes</Link>
           </li>
           <li class="mr-6">
-            <Link class="text-white opacity-60   hover:text-cyan-500 hover:opacity-100" :href="route('investments')">Investimentos</Link>
+            <Link class="text-white hover:text-cyan-500" :class="navbar.investments" :href="route('investments')">Investimentos</Link>
           </li>
         </ul>
     </div>
