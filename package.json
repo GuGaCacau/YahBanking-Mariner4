@@ -6,7 +6,6 @@
         "build": "vite build"
     },
     "devDependencies": {
-        "@inertiajs/vue3": "^1.0.0",
         "@tailwindcss/forms": "^0.5.3",
         "@vitejs/plugin-vue": "^4.0.0",
         "autoprefixer": "^10.4.12",
@@ -18,7 +17,9 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "@headlessui/react": "^1.7.14",
         "@heroicons/vue": "^2.0.18",
-        "@inertiajs/progress": "^0.2.7"
+        "@inertiajs/progress": "^0.2.7",
+        "@inertiajs/vue3": "^1.0.0"
     }
 }
