@@ -1,5 +1,4 @@
 <script setup>
-  import { Link } from '@inertiajs/vue3'
 
   const props = defineProps({
     items: {
@@ -29,7 +28,7 @@
 
             <slot v-for="field in fields" :key="field.id" :name="field.type"
                 :item="field.column == 'total_amount' ? (item.invested_amount + item.uninvested_amount)
-                : field.type == 'button' ? field.column
+                : field.type == 'button' ? {field : field.column, item : item}
                 : item[field.column]" />
 
         </tr>

@@ -18,7 +18,6 @@ class MainController extends Controller
     {
         $clients = Client::all();
 
-        //return view('clients', ['clients' => $clients]);
         return Inertia::render('Clients', compact('clients'));
     }
 
@@ -27,7 +26,6 @@ class MainController extends Controller
     {
         $investments = Investment::all();
 
-        //return view('investments', ['investments' => $investments]);
         return Inertia::render('Investments', compact('investments'));
     }
 }

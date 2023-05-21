@@ -27,19 +27,8 @@ class ClientController extends Controller
         return Inertia::render('Client/ClientCreate');
     }
 
-    //Função para ir à tela de atualizar um cliente
-    public function edit($id)
-    {
-        //Cliente específico pelo ID passado, volta caso não seja um ID válido
-        if(!$client = Client::find($id)){
-            return back();
-        }
-
-        return view('client.client_edit', compact('client'));
-    }
-
     //Função para adicionar clientes no banco de dados
-    public function post(ClientRequest $request)
+    public function store(ClientRequest $request)
     {
         //Incluindo constante da aplicação (valor_total)
         $valor_total = config('constants.valor_total');
@@ -60,7 +49,19 @@ class ClientController extends Controller
                 'uninvested_amount' => $valor_total,
             ]));
 
-        return redirect()->route('index')->with('success', "Cliente cadastrado(a) com Sucesso!");
+        return redirect()->route('index')
+            ->with('message', "Cliente cadastrado(a) com Sucesso!");
+    }
+
+    //Função para ir à tela de atualizar um cliente
+    public function edit($id)
+    {
+        //Cliente específico pelo ID passado, volta caso não seja um ID válido
+        if(!$client = Client::find($id)){
+            return back();
+        }
+
+        return view('client.client_edit', compact('client'));
     }
 
     //Função para atualizar clientes (sem novo avatar) no banco de dados
@@ -106,7 +107,7 @@ class ClientController extends Controller
     }
 
     //Função para deletar um cliente
-    public function delete($id)
+    public function destroy($id)
     {
         //Acessando todos os investimentos feitos por esse cliente
         $client_investments = ClientInvestment::select('*')->where("client_investment.client_id", '=', $id)->get();
@@ -125,7 +126,8 @@ class ClientController extends Controller
 
         $client->delete();
 
-        return redirect()->route('index')->with('success', 'Cliente excluído(a) com Sucesso!');
+        return redirect()->route('index')
+            ->with('message', "Cliente excluído(a) com Sucesso!");
     }
 
     //Função para ir à tela de investimentos de um cliente

@@ -1,9 +1,11 @@
 <script setup>
-    import { Link } from '@inertiajs/vue3'
-    import TheHeader from '@/Components/TheHeader.vue'
+    import { Link, Head, router } from '@inertiajs/vue3'
+    import TheHeader from '@/Layouts/TheHeader.vue'
     import Table from '@/Components/Table.vue'
-    import TheFooter from '@/Components/TheFooter.vue'
+    import TheFooter from '@/Layouts/TheFooter.vue'
     import { PencilSquareIcon, MagnifyingGlassIcon , TrashIcon} from '@heroicons/vue/24/solid'
+    import SuccessMessage from '@/Components/Messages/SuccessMessage.vue'
+    import TableHeader from '@/Components/Headers/TableHeader.vue'
 
     const props = defineProps({
         investments: Object
@@ -17,15 +19,28 @@
         { head:"Encerrar", column:"delete", type:"button", id:4 },
     ];
 
-    const navbar = {
-        clients : {'opacity-60': true, 'hover:opacity-100': true},
-        investments : {'font-bold':true}
+    const destroy = (id) => {
+        if (confirm('Tem certeza que deseja excluir esse investimento?')) {
+            router.delete(route('investment.destroy', id));
+        }
+    };
+
+    const edit = (investment) => {
+
     }
 
 </script>
 
 <template>
-    <TheHeader :navbar="navbar"/>
+    <Head title="Investimentos"/>
+
+    <TheHeader />
+    <SuccessMessage v-if="$page.props.flash.message"
+        :message="$page.props.flash.message"
+        />
+    <TableHeader dataType="investimento"
+        routeName="investment.create"
+        />
     <Table :items="investments" :fields="fields">
 
         <template v-slot:item="data">
@@ -36,17 +51,15 @@
 
         <template v-slot:button="data">
             <td class="text-center">
-                <Link href="#">
-                    <button v-if="data.item == 'update'" class="bg-transparent hover:bg-cyan-500 text-gray-400 font-semibold hover:text-white py-2 px-2 border border-cyan-500 border-opacity-25 rounded">
-                        <PencilSquareIcon class="h-4 w-4"/>
-                    </button>
-                    <button v-else-if="data.item == 'show'" class="bg-transparent hover:bg-cyan-500 text-green-500 font-semibold hover:text-white py-2 px-2 border border-cyan-500 border-opacity-25 rounded">
-                        <MagnifyingGlassIcon class="h-4 w-4"/>
-                    </button>
-                    <button v-else class="bg-transparent hover:bg-cyan-500 text-red-600 font-semibold hover:text-white py-2 px-2 border border-cyan-500 border-opacity-25 rounded">
-                        <TrashIcon class="h-4 w-4"/>
-                    </button>
-                </Link>
+                <button v-if="data.item.field == 'update'" @click.prevent="edit(data.item.item)" class="bg-transparent hover:bg-cyan-500 text-gray-400 font-semibold hover:text-white py-2 px-2 border border-cyan-500 border-opacity-25 rounded">
+                    <PencilSquareIcon class="h-4 w-4"/>
+                </button>
+                <button v-else-if="data.item.field == 'show'" class="bg-transparent hover:bg-cyan-500 text-green-500 font-semibold hover:text-white py-2 px-2 border border-cyan-500 border-opacity-25 rounded">
+                    <MagnifyingGlassIcon class="h-4 w-4"/>
+                </button>
+                <button v-else @click="destroy(data.item.item.id)" class="bg-transparent hover:bg-cyan-500 text-red-600 font-semibold hover:text-white py-2 px-2 border border-cyan-500 border-opacity-25 rounded">
+                    <TrashIcon class="h-4 w-4"/>
+                </button>
             </td>
         </template>
 

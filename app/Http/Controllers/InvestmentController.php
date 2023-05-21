@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 // Regras de validação customizadas para clientes
 use App\Http\Requests\InvestmentRequest;
+use App\Http\Requests\InvestmentStoreRequest;
 
 //Incluindo os Models para utilizar o Eloquent no controlador
 use \App\Models\Client;
@@ -16,9 +18,19 @@ use Illuminate\Support\Facades\DB;
 class InvestmentController extends Controller
 {
     //Função para ir à tela de adicionar um investimento
-    public function add()
+    public function create()
     {
-        return view('investment.investment_add');
+        return Inertia::render('Investment/InvestmentCreate');
+    }
+
+    //Função para adicionar investimentos no banco de dados
+    public function store(InvestmentStoreRequest $request)
+    {
+        //POST do novo investimento no banco de dados
+        Investment::create($request->validated());
+
+        return redirect()->route('investments')
+            ->with('message', "Investimento cadastrado com Sucesso!");
     }
 
     //Função para ir à tela de atualizar um investimento
@@ -29,16 +41,7 @@ class InvestmentController extends Controller
             return back();
         }
 
-        return view('investment.investment_edit', compact('investment'));
-    }
-
-    //Função para adicionar investimentos no banco de dados
-    public function post(InvestmentRequest $request)
-    {
-        //POST do novo investimento no banco de dados
-        Investment::create($request->all()); 
-
-        return redirect()->route('investments')->with('success', 'Cadastro Realizado com Sucesso!');
+        return Inertia::render('Investment/InvestmentEdit', compact('investment'));
     }
 
     //Função para atualizar investimentos no banco de dados
@@ -48,7 +51,7 @@ class InvestmentController extends Controller
         Investment::find($id)
             ->update($request->all());
 
-        return redirect()->route('investments')->with('success', 'Cadastro Atualizado com Sucesso!');
+        return redirect()->route('investments')->with('message', 'Cadastro Atualizado com Sucesso!');
     }
 
     //Função para ir à tela de info de um investimento
@@ -70,7 +73,7 @@ class InvestmentController extends Controller
     }
 
     //Função para deletar um investimento
-    public function delete($id)
+    public function destroy($id)
     {
         //Acessando todos os investimentos de clientes feitos nesse investimento
         $client_investments = ClientInvestment::select('*')->where("client_investment.investment_id", '=', $id)->get();
@@ -89,6 +92,7 @@ class InvestmentController extends Controller
 
         $investment->delete();
 
-        return redirect()->route('investments')->with('success', 'Investimento excluído com Sucesso!');
+        return redirect()->route('investments')
+            ->with('success', 'Investimento excluído com Sucesso!');
     }
 }
