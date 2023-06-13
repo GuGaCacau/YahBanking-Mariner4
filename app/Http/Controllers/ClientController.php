@@ -4,7 +4,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 // Regras de validação customizadas para clientes
@@ -34,11 +34,10 @@ class ClientController extends Controller
         $valor_total = config('constants.valor_total');
 
         //Criando nome do arquivo de avatar
-        $request_avatar = $request->avatar;
-        $avatar_name = time() . "." . $request_avatar->extension();
+        $avatar_name = time() . "." . $request->avatar->extension();
 
         //Salvando a imagem em storage/app/public
-        Storage::putFileAs('public',$request_avatar, $avatar_name);
+        Storage::putFileAs('public',$request->avatar, $avatar_name);
         $avatar_path = "storage/".$avatar_name;
 
         //POST do novo cliente no banco de dados
@@ -49,7 +48,7 @@ class ClientController extends Controller
                 'uninvested_amount' => $valor_total,
             ]));
 
-        return redirect()->route('index')
+        return Redirect::route('index')
             ->with('message', "Cliente cadastrado(a) com Sucesso!");
     }
 
@@ -81,18 +80,12 @@ class ClientController extends Controller
     //Função para atualizar clientes (com novo avatar) no banco de dados
     public function patch_with_avatar(ClientRequest $request, $id)
     {
-        //Validando a existência da pasta "images" e pegando seu path
-        $path = public_path('images/');
-        !is_dir($path) &&
-            mkdir($path, 0777, true);
+        //Criando nome do arquivo de avatar
+        $avatar_name = time() . "." . $request->avatar->extension();
 
-        //Criando nome para a imagem do avatar de acordo com o horário
-        $avatar_name = time() . '.' . $request->avatar->extension();
-
-        //Salvando a imagem do avatar na pasta "public/images" do projeto
-        //TODO: Salvar imagem na Storage
-        $request->avatar->move($path, $avatar_name);
-        $avatar_path = "images/" . $avatar_name;
+        //Salvando a imagem em storage/app/public
+        Storage::putFileAs('public',$request->avatar, $avatar_name);
+        $avatar_path = "storage/".$avatar_name;
 
         //PATCH do cliente no banco de dados
         Client::find($id)

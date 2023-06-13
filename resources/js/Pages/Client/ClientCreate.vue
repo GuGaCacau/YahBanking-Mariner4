@@ -19,7 +19,7 @@
         avatar: null
     });
 
-    function submit() {
+    function store() {
         router.post(route('client.store'), form)
     }
 
@@ -32,7 +32,7 @@
     <div>
         <p class="flex justify-center tracking-wide text-gray-300 text-xl mt-4 mb-4 font-bold">Cadastro de Cliente</p>
         <div class="flex justify-center">
-            <form @submit.prevent="submit" class="w-full max-w-lg">
+            <form @submit.prevent="store" class="w-full max-w-lg">
             <ClientForm :form="form" :errors="errors" />
             <button
                 class="inline-flex items-center px-4 py-2 bg-gray-700 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-orange-500 active:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition ease-in-out duration-150"
